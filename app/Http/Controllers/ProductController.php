@@ -118,9 +118,6 @@ class ProductController extends Controller
                         ->with('success','Product deleted successfully');
     }
 
-
-    
-
     public function restore($product)
     {
         $product = Product::onlyTrashed()->find($product);
@@ -134,5 +131,10 @@ class ProductController extends Controller
         $product = Product::onlyTrashed()->restore();
         // dd($product);
         return back()->with('success', 'All Product Restored successfully');
+    }
+
+    public function __contruct()
+    {
+        $this->middleware('auth');
     }
 }

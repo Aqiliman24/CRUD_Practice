@@ -1,5 +1,5 @@
-@extends('products.layout')
- 
+{{-- @extends('products.layout') --}}
+@extends('layouts.app')
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -46,7 +46,6 @@
             <td>{{ $product->quantity }}</td>
             <td>{{ $product->detail }}</td>
             <td>
-    
 
                 @if (!$product->deleted_at)
                     <form action="{{ route('products.destroy',$product->id) }}" method="POST">

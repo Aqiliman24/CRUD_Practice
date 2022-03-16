@@ -15,12 +15,18 @@ use App\Http\Controllers\ProductController , App\Http\Controllers\PostController
 |
 */
 
+
+Route::get('/', function () {
+    return view('products/welcome');
+});
+
+
 Route::resource('products', productController::class);
 
 
 
 
-Route::get('products', [productController::class, 'index'])->name('products.index');
+Route::get('products', [productController::class, 'index'])->name('products.index')->middleware('auth');
 
 // Route::delete('products/{id}', [productController::class, 'delete'])->name('products.delete');i
 
@@ -30,3 +36,7 @@ Route::patch('products/{product}/restore', [productController::class, 'restore']
 
 // Route::get('products/restore_all', [productController::class, 'restore_all'])->name('products.restore_all');
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

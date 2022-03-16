@@ -1,4 +1,5 @@
 @extends('products.layout')
+@extends('layouts.app')
   
 @section('content')
     <div class="row">
