@@ -20,7 +20,11 @@ class CreateProductsTable extends Migration
             $table->text("detail");
             $table->softDeletes();
             $table->timestamps();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
         });
+
+        
     }
 
     /**

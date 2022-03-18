@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Auth;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -15,20 +16,35 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $status = $request->status;
-        $page = $request->page ? $request->page : 1;
-        $per_page = $request->page ? $request->page : 10;
+        $page = $request->page ?? 1;
+        $per_page = $request->per_page ?? 5;
 
 
         if ($status=='deleted'){
-            $products = Product::onlyTrashed()->paginate($per_page);
+
+            $products = Auth::user()->deleted_products()->paginate($per_page);
+
         }else{
-            $products = Product::paginate($per_page);
+            if ($request->get('keyword') != null)
+            {
+                $keyword = $request->get('keyword');
+                $products = Auth::user()->products()->where('name','LIKE','%'.$keyword.'%')->paginate($per_page);
+                // dd($products);
+            }
+            else
+            {
+                $products = Auth::user()->products()->paginate($per_page);
+            }
+
+                // $products = Auth::user()->products()->paginate($per_page);
         }
+
+        
         
         // $products = Product::latest()->paginate(5);
         // dd($products);
-        return view('products.index',compact('products'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+
+        return view('products.index',compact('products'));
     }
 
     /**
@@ -54,8 +70,10 @@ class ProductController extends Controller
             'quantity'=>'required|integer',
             'detail' => 'required',
         ]);
+
+        Auth::user()->products()->create($request->all());
     
-        Product::create($request->all());
+        // Product::create($request->all()+['user_id'=>Auth::user()->id]);
      
         return redirect()->route('products.index')
                         ->with('success','Product created successfully.');
@@ -137,4 +155,6 @@ class ProductController extends Controller
     {
         $this->middleware('auth');
     }
+
+    
 }

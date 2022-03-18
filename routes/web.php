@@ -30,12 +30,9 @@ Route::get('products', [productController::class, 'index'])->name('products.inde
 
 // Route::delete('products/{id}', [productController::class, 'delete'])->name('products.delete');i
 
-Route::get('products/restore/restore-all' , [productController::class, 'restoreAll'])->name('products.restore-all');
-
 Route::patch('products/{product}/restore', [productController::class, 'restore'])->name('products.restore');
 
-// Route::get('products/restore_all', [productController::class, 'restore_all'])->name('products.restore_all');
-
+Route::get('products/restore/restore-all' , [productController::class, 'restoreAll'])->name('products.restore-all');
 
 Auth::routes();
 

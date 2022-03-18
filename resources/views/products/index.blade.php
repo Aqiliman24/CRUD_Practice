@@ -7,6 +7,24 @@
                 <h2>Laravel 8 CRUD Example from scratch</h2>
             </div>
             <div class="pull-right">
+                <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md mr-md-3 my2 my-md-0"
+                 method="GET" action="{{route('products.index')}}">
+
+                 <div class="input-group">
+                     <input
+                        class="form-control"
+                        type="text" placeholder="Search Product..."
+                        aria-label="Search" aria-describedby="basic-addon2"
+                        name = "keyword"
+                        value="{{request()->get('keyword')}}"
+                     />
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                 </div>
+                </form>
+            </div>
+            <div class="pull-right">
                 <a class="btn btn-success" href="{{ route('products.create') }}"> Create New Product</a>
             </div>
             <div class="pull-right">
@@ -41,7 +59,7 @@
         </tr>
         @foreach ($products as $product)
         <tr>
-            <td>{{ ++$i }}</td>
+            <td>{{ $product->id }}</td>
             <td>{{ $product->name }}</td>
             <td>{{ $product->quantity }}</td>
             <td>{{ $product->detail }}</td>
