@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -71,7 +73,17 @@ class ProductController extends Controller
             'detail' => 'required',
         ]);
 
-        Auth::user()->products()->create($request->all());
+
+        $product = Auth::user()->products()->create($request->except(['attachment']));
+
+        if ($request->hasfile('attachment'))
+        {
+            // dd($request->attachment);
+            $filename = $product->id.'-'.date("d-m-Y").'.'.$request->attachment->getClientOriginalExtension();
+            Storage::disk('public')->put($filename, File::get($request->attachment));
+            $product->update(['attachment'=>$filename]);
+        }
+
     
         // Product::create($request->all()+['user_id'=>Auth::user()->id]);
      
@@ -117,6 +129,17 @@ class ProductController extends Controller
         ]);
     
         $product->update($request->all());
+
+        if ($request->hasfile('attachment'))
+        {
+            Storage::disk('public')->delete($products->attachment);
+            $filename = $products->id.'-'.date("d-m-Y").'.'.$request->attachment->getClientOriginalExtension();
+            Storage::disk('public')->put($filename, File::get($request->attachment));
+            $products->update(['attachment'=>$filename]);
+        }
+
+
+        
     
         return redirect()->route('products.index')
                         ->with('success','Product updated successfully');

@@ -17,7 +17,7 @@ use App\Http\Controllers\ProductController , App\Http\Controllers\PostController
 
 
 Route::get('/', function () {
-    return view('products/welcome');
+    return redirect()->route('login'); // return view('Auth/login');
 });
 
 

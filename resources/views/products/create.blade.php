@@ -25,7 +25,7 @@
     </div>
 @endif
    
-<form action="{{ route('products.store') }}" method="POST">
+<form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
   
      <div class="row">
@@ -46,6 +46,15 @@
                 <strong>Detail:</strong>
                 <textarea class="form-control" style="height:150px" name="detail" placeholder="Detail"></textarea>
             </div>
+        </div>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <label for="title">Trainer</label>
+            <input type="text" class="form-control" name="products">
+        </div>
+        <div class="form-group">
+            <label for="title">Attachment</label>
+            <input type="file" class="form-control" name="attachment">
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">Submit</button>

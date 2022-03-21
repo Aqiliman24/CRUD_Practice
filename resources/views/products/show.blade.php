@@ -32,5 +32,9 @@
                 {{ $product->detail }}
             </div>
         </div>
+        <div class="form-group">
+            <label form="title">Attachment</label>
+            <a href="{{env('APP_URL')}}/storage/{{$product->attachment}}" target="_blank">Open Attachment</a>
+        </div>
     </div>
 @endsection
