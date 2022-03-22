@@ -1,7 +1,7 @@
 <?php
 
 // use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController , App\Http\Controllers\PostController;
+use App\Http\Controllers\ProductController , App\Http\Controllers\PostController,  App\Http\Controllers\AdminController;
 
 
 /*
@@ -16,24 +16,25 @@ use App\Http\Controllers\ProductController , App\Http\Controllers\PostController
 */
 
 
-Route::get('/', function () {
-    return redirect()->route('login'); // return view('Auth/login');
-});
+// Route::get('/', function () {
+//     return redirect()->route('login'); // return view('Auth/login');
+// });
 
 
-Route::resource('products', productController::class);
+Route::resource('products', ProductController::class);
 
 
 
 
-Route::get('products', [productController::class, 'index'])->name('products.index')->middleware('auth');
+Route::get('products', [ProductController::class, 'index'])->name('products.index')->middleware('auth');
 
 // Route::delete('products/{id}', [productController::class, 'delete'])->name('products.delete');i
 
-Route::patch('products/{product}/restore', [productController::class, 'restore'])->name('products.restore');
+Route::patch('products/{product}/restore', [ProductController::class, 'restore'])->name('products.restore');
 
-Route::get('products/restore/restore-all' , [productController::class, 'restoreAll'])->name('products.restore-all');
+Route::get('products/restore/restore-all' , [ProductController::class, 'restoreAll'])->name('products.restore-all');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/admin', [AdminController::class, 'adminIndex'])->name('admin.adminIndex');
